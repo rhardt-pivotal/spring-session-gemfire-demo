@@ -1,0 +1,14 @@
+---
+applications:
+- name: spring-session-demo
+  memory: 2G
+  instances: 1
+  path: ./target/spring-session-gemfire-demo-0.0.1-SNAPSHOT.jar
+  services:
+  - rob-session-replication
+#  env:
+#    SPRING_SESSION_DATA_GEODE_CACHE_SERVER_HOST: 10.0.8.6
+#    SPRING_SESSION_DATA_GEODE_CACHE_SERVER_PORT: 55221
+#    SPRING_SESSION_DATA_GEODE_CACHE_SERVER_USER: cluster_operator_vAoozMPhKP6t6YOilOWVNg
+#    SPRING_SESSION_DATA_GEODE_CACHE_SERVER_PASSWORD: zfxS4YFFWrEkMYehJsyuvA
+    
