@@ -5,6 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 //import org.springframework.session.data.gemfire.config.annotation.web.http.EnableGemFireHttpSession;
+import org.springframework.data.gemfire.config.annotation.ClientCacheApplication;
+import org.springframework.data.gemfire.config.annotation.EnablePool;
+import org.springframework.data.gemfire.config.annotation.EnableSecurity;
+import org.springframework.session.data.gemfire.config.annotation.web.http.EnableGemFireHttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
@@ -20,9 +24,13 @@ import java.util.*;
 
 @SpringBootApplication
 @Controller
-//@ClientCacheApplication(name = "SpringSessionDataGeodeClientBootSample", logLevel = "debug",
-//		pingInterval = 5000L, readTimeout = 15000, retryAttempts = 1, subscriptionEnabled = true)  // <3>
-//@EnableGemFireHttpSession(maxInactiveIntervalInSeconds = 300)
+@ClientCacheApplication
+@EnablePool(name = "gemfirePool")
+@EnableGemFireHttpSession(poolName = "gemfirePool",
+		regionName = "test",
+		maxInactiveIntervalInSeconds = 180
+)
+@EnableSecurity
 public class SpringSessionGemfireDemoApplication {
 
 	static final String INDEX_TEMPLATE_VIEW_NAME = "index";
@@ -37,21 +45,6 @@ public class SpringSessionGemfireDemoApplication {
 
 
 
-	@Configuration
-	static class SpringWebMvcConfiguration {  // <6>
-
-		@Bean
-		public WebMvcConfigurer webMvcConfig() {
-
-			return new WebMvcConfigurer() {
-
-				@Override
-				public void addViewControllers(ViewControllerRegistry registry) {
-					registry.addViewController("/").setViewName(INDEX_TEMPLATE_VIEW_NAME);
-				}
-			};
-		}
-	}
 
 	@ExceptionHandler
 	@ResponseBody
@@ -75,6 +68,11 @@ public class SpringSessionGemfireDemoApplication {
 		modelMap.addAttribute("sessionAttributes",
 				attributes(setAttribute(updateRequestCount(session), name, value)));
 
+		return INDEX_TEMPLATE_VIEW_NAME;
+	}
+
+	@RequestMapping(method = RequestMethod.GET, path = "/")
+	public String index() {
 		return INDEX_TEMPLATE_VIEW_NAME;
 	}
 // end::class[]

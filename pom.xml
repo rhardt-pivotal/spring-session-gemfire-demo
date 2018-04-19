@@ -14,20 +14,20 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.3.RELEASE</version>
+		<version>2.0.1.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-to-slf4j</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -48,16 +48,17 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.shell</groupId>
-			<artifactId>spring-shell</artifactId>
-			<version>1.2.0.RELEASE</version>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-gemfire</artifactId>
+			<version>2.1.0.M2</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>5.0.5.RELEASE</version>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-data-gemfire</artifactId>
+			<version>2.0.2.RELEASE</version>
 		</dependency>
+
 
 
 		<dependency>
@@ -69,16 +70,24 @@
 
 	<repositories>
 		<repository>
-			<id>spring-releases</id>
-			<name>spring-releases</name>
-			<layout>default</layout>
-			<url>http://repo.spring.io/release/</url>
+			<id>milestones</id>
+			<name>milestones</name>
+			<url>https://repo.spring.io/libs-milestone</url>
 		</repository>
 		<repository>
-			<id>gemfire-release-repo</id>
-			<name>Pivotal GemFire Release Repository</name>
-			<url>https://commercial-repo.pivotal.io/data3/gemfire-release-repo/gemfire</url>
+			<id>releases</id>
+			<name>releases</name>
+			<url>https://repo.spring.io/libs-release</url>
 		</repository>
 	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
